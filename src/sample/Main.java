@@ -1,22 +1,28 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import sample.controllers.EmployeesViewController;
+import sample.controllers.ProfileController;
 import sample.controllers.RootLayoutController;
 import sample.models.Employee;
 import sample.controllers.LoginController;
+import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
 public class Main extends Application {
-
+    RestApiRequests requests = new RestApiRequests();
     private Stage primaryStage;
     public Employee currentUser;
+    private BorderPane rootLayout;
+    private ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 
     public Employee getCurrentUser() {
         return currentUser;
@@ -31,8 +37,9 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
         try{
+            employeeData = requests.getEmployees();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/login.fxml"));
             AnchorPane loginPage = (AnchorPane) loader.load();
@@ -47,20 +54,54 @@ public class Main extends Application {
         }
     }
 
-    public void showMainApp(Stage primaryStage) throws IOException {
+    public void showMainApp(Stage primaryStage){
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/rootLayout.fxml"));
-            BorderPane rootLayout = (BorderPane) loader.load();
+            rootLayout = (BorderPane) loader.load();
             Scene scene = new Scene(rootLayout, 900, 400);
             primaryStage.setScene(scene);
             RootLayoutController layoutController = loader.getController();
+            layoutController.initialize(this, primaryStage);
             primaryStage.show();
+            showEmployeesDB(primaryStage);
 
         } catch (IOException e){
             e.printStackTrace();
         }
     }
+
+    public void showProfilePage(Stage primaryStage){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/profile.fxml"));
+            AnchorPane profile = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(profile);
+            ProfileController profileController = loader.getController();
+            profileController.initialize(this, primaryStage, currentUser);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void showEmployeesDB(Stage primaryStage){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/employees.fxml"));
+            AnchorPane employees = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(employees);
+            EmployeesViewController employeesViewController = loader.getController();
+            employeesViewController.initialize(this, primaryStage, currentUser, employeeData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public static void main(String[] args) {

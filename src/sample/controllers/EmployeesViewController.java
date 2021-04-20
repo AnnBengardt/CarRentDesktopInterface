@@ -15,6 +15,7 @@ public class EmployeesViewController {
     private Main mainApp;
     private Stage stage;
     private Employee currentUser;
+    private ObservableList<Employee> employeeData;
 
     RestApiRequests requests = new RestApiRequests();
 
@@ -48,10 +49,11 @@ public class EmployeesViewController {
         this.mainApp = mainApp;
         this.stage = stage;
         this.currentUser = currentUser;
+        this.employeeData = empData;
         employeeTableView.setItems(empData);
 
-        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().getFirstNameProperty());
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().getLastNameProperty());
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 
         showEmployeeDetails(null);
         employeeTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -65,8 +67,8 @@ public class EmployeesViewController {
             lastNameLabel.setText(currentUser.getLastName());
             emailLabel.setText(currentUser.getEmail());
             passwordField.setText(currentUser.getHashedPassword());
-            jobLabel.setText(Long.toString(currentUser.getJobId()));
-            officeLabel.setText(Long.toString(currentUser.getOfficeId()));
+            jobLabel.setText(currentUser.getJob().getJobName());
+            officeLabel.setText(currentUser.getOffice().getCity() + ", " + currentUser.getOffice().getStreet());
 
         } else {
             firstNameLabel.setText("No data");
@@ -80,7 +82,7 @@ public class EmployeesViewController {
 
     @FXML
     private void handleDeleteEmployee() throws IOException {
-        if (currentUser.getJobId() == 1) {
+        if (currentUser.getJob().getJobId() == 1) {
             int selectedIndex = employeeTableView.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {
                 Boolean result = requests.deletePerson(employeeTableView.getSelectionModel().getSelectedItem());
@@ -108,14 +110,35 @@ public class EmployeesViewController {
     }
 
     @FXML
-    private void handleNewEmployee(){
-
+    private void handleNewEmployee() throws IOException {
+        if (currentUser.getJob().getJobId() == 1){
+            Employee tempEmployee = new Employee();
+            Employee resultEmployee = mainApp.showEmployeesEditPage(stage, tempEmployee);
+            if (resultEmployee != null) {
+                employeeData.add(resultEmployee);
+                requests.createEmployee(resultEmployee);
+                mainApp.showMainApp(stage);
+            } else {
+                mainApp.showMainApp(stage);
+            }
+        }
     }
 
     @FXML
-    private void handleEditEmployee(){
-
+    private void handleEditEmployee() throws IOException {
+        if (currentUser.getJob().getJobId() == 1){
+            Employee tempEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+            Employee resultEmployee = mainApp.showEmployeesEditPage(stage, tempEmployee);
+            if (resultEmployee != null) {
+                requests.updateEmployee(resultEmployee);
+                mainApp.showMainApp(stage);
+            } else {
+                mainApp.showMainApp(stage);
+            }
+        }
     }
 
-
+    public ObservableList<Employee> getEmployeeData() {
+        return employeeData;
+    }
 }

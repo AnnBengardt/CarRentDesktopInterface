@@ -7,12 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.controllers.EmployeesViewController;
-import sample.controllers.ProfileController;
-import sample.controllers.RootLayoutController;
+import sample.controllers.*;
 import sample.models.Employee;
-import sample.controllers.LoginController;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
@@ -36,6 +34,10 @@ public class Main extends Application {
         return primaryStage;
     }
 
+    public void setEmployeeData(ObservableList<Employee> employeeData) {
+        this.employeeData = employeeData;
+    }
+
     @Override
     public void start(Stage primaryStage) {
         try{
@@ -56,6 +58,7 @@ public class Main extends Application {
 
     public void showMainApp(Stage primaryStage){
         try{
+            employeeData = requests.getEmployees();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/rootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
@@ -98,6 +101,28 @@ public class Main extends Application {
 
         } catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public Employee showEmployeesEditPage(Stage primaryStage, Employee clickedEmployee) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/employeeEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        EmployeeEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedEmployee);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedUser();
+        }else{
+            return null;
         }
     }
 

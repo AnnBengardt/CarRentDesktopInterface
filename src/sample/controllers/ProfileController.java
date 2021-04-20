@@ -33,8 +33,8 @@ public class ProfileController {
             firstNameLabel.setText(currentUser.getFirstName());
             lastNameLabel.setText(currentUser.getLastName());
             emailLabel.setText(currentUser.getEmail());
-            jobLabel.setText(Long.toString(currentUser.getJobId()));
-            officeLabel.setText(Long.toString(currentUser.getOfficeId()));
+            jobLabel.setText(currentUser.getJob().getJobName());
+            officeLabel.setText(currentUser.getOffice().getCity() + ", " + currentUser.getOffice().getStreet());
 
         }else{
             firstNameLabel.setText("No data");

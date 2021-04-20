@@ -1,8 +1,11 @@
 package sample.models;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.beans.property.*;
 
-import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Employee {
 
@@ -11,20 +14,19 @@ public class Employee {
     private final StringProperty lastName;
     private final StringProperty email;
     private final StringProperty hashedPassword;
-    private final BooleanProperty isMainManager;
-    private final LongProperty jobId;
-    private final LongProperty officeId;
+    private final ObjectProperty<Job> job;
+    private final ObjectProperty<Office> office;
 
-    public Employee(Long employeeId, String firstName, String lastName, String email, String hashedPassword, Boolean isMainManager,
-                    Long jobId, Long officeId){
+
+    public Employee(Long employeeId, String firstName, String lastName, String email, String hashedPassword,
+                    Job job, Office office){
         this.employeeId = new SimpleLongProperty(employeeId);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.email = new SimpleStringProperty(email);
         this.hashedPassword = new SimpleStringProperty(hashedPassword);
-        this.isMainManager = new SimpleBooleanProperty(isMainManager);
-        this.jobId = new SimpleLongProperty(jobId);
-        this.officeId = new SimpleLongProperty(officeId);
+        this.job = new SimpleObjectProperty<Job>(job);
+        this.office = new SimpleObjectProperty<Office>(office);
     }
 
     public Employee(String firstName, String lastName, String email, String password){
@@ -33,9 +35,8 @@ public class Employee {
         this.lastName = new SimpleStringProperty(lastName);
         this.email = new SimpleStringProperty(email);
         this.hashedPassword = new SimpleStringProperty(password);
-        this.isMainManager = null;
-        this.jobId = null;
-        this.officeId = null;
+        this.job = new SimpleObjectProperty<Job>();
+        this.office = new SimpleObjectProperty<Office>();
     }
 
     public Employee(){this(null, null, null ,null);}
@@ -48,85 +49,100 @@ public class Employee {
         return employeeId;
     }
 
+    public void setEmployeeId(long employeeId) {
+        this.employeeId.set(employeeId);
+    }
+
+
     public String getFirstName() {
         return firstName.get();
+    }
+
+    public StringProperty firstNameProperty() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName.set(firstName);
     }
 
     public String getLastName() {
         return lastName.get();
     }
 
-    public String getEmail() {
-        return email.get();
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword.get();
-    }
-
-    public Boolean getIsMainManager() {
-        return isMainManager.get();
-    }
-
-    public Long getOfficeId() {
-        return officeId.get();
-    }
-
-    public Long getJobId() {return jobId.get();}
-
-
-    public void setFirstName(String firstName) {
-        this.firstName.set(firstName);
+    public StringProperty lastNameProperty() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName.set(lastName);
     }
 
+    public String getEmail() {
+        return email.get();
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email.set(email);
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword.get();
+    }
+
+    public StringProperty hashedPasswordProperty() {
+        return hashedPassword;
     }
 
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword.set(hashedPassword);
     }
 
-    public void setIsMainManager(Boolean isMainManager) {
-        this.isMainManager.set(isMainManager);
+    public Job getJob() {
+        return job.get();
     }
 
-    public void setJobId(Long jobId) {
-        this.jobId.set(jobId);
+    public ObjectProperty<Job> jobProperty() {
+        return job;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId.set(officeId);
+    public void setJob(Job job) {
+        this.job.set(job);
     }
 
-
-    public StringProperty getFirstNameProperty() {
-        return firstName;
+    public Office getOffice() {
+        return office.get();
     }
 
-    public StringProperty getLastNameProperty() {
-        return lastName;
+    public ObjectProperty<Office> officeProperty() {
+        return office;
     }
 
-    public StringProperty getEmailProperty() {
-        return email;
+    public void setOffice(Office office) {
+        this.office.set(office);
     }
 
-    public StringProperty getHashedPasswordProperty() {
-        return hashedPassword;
+    public String toJson() {
+
+        Map<String, Object> map = new HashMap<>();
+        if (employeeId == null){
+            map.put("employeeId", null);
+        } else{
+            map.put("employeeId", String.valueOf(employeeId.get()));
+        }
+        map.put("lastName", String.valueOf(lastName.get()));
+        map.put("firstName", String.valueOf(firstName.get()));
+        map.put("email", String.valueOf(email.get()));
+        map.put("hashedPassword", String.valueOf(hashedPassword.get()));
+        map.put("job", new Gson().fromJson(job.get().toJson(), JsonObject.class));
+        map.put("office", new Gson().fromJson(office.get().toJson(), JsonObject.class));
+
+        Gson gson = new Gson();
+        return gson.toJson(map);
     }
-
-    public BooleanProperty getIsMainManagerProperty() {
-        return isMainManager;
-    }
-
-    public LongProperty getJobIdProperty() {return jobId;}
-
-    public LongProperty getOfficeIdProperty() {return officeId;}
-
 
 }

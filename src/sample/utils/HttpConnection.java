@@ -28,7 +28,6 @@ public class HttpConnection {
     }
 
     public static String PostRequest(String urlString, String jsonString) {
-
         try {
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection();

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="264.0" prefWidth="276.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.RateEditController">
+    <children>
+        <GridPane layoutX="20.0" layoutY="46.0" prefHeight="123.0" prefWidth="240.0" styleClass="background" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="46.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="92.2" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="198.2" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="93.4" minHeight="10.0" prefHeight="92.4" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="67.4" minHeight="10.0" prefHeight="52.400000000000006" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Name" />
+                <Label text="Daily price" GridPane.rowIndex="1" />
+                <TextField fx:id="nameField" GridPane.columnIndex="1" />
+                <TextField fx:id="priceField" prefHeight="22.0" prefWidth="173.0" text="00.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            </children>
+        </GridPane>
+        <ButtonBar layoutX="38.0" layoutY="198.0" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="198.0">
+            <buttons>
+                <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
+                <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+            </buttons>
+        </ButtonBar>
+    </children>
+</AnchorPane>

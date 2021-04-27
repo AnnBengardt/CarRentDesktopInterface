@@ -145,6 +145,14 @@ public class EmployeeEditController {
             errorMessage += "No city input\n";
         }
 
+        if (jobBox.getValue() == null){
+            errorMessage += "No job input, ";
+        }
+
+        if (officeBox.getValue() == null){
+            errorMessage += "No office input";
+        }
+
         if (errorMessage.length()==0){
             return true;
         }else{

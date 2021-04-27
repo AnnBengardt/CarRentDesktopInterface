@@ -11,6 +11,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controllers.*;
 import sample.models.Employee;
+import sample.models.Job;
+import sample.models.Office;
+import sample.models.Rate;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
@@ -121,6 +124,121 @@ public class Main extends Application {
         dialogueStage.showAndWait();
         if (controller.isOkClicked()){
             return controller.getClickedUser();
+        }else{
+            return null;
+        }
+    }
+
+    public void showOfficesDB(Stage primaryStage){
+        try{
+            ObservableList<Office> officeData = requests.getOffices();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/offices.fxml"));
+            AnchorPane offices = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(offices);
+            OfficesViewController officesViewController = loader.getController();
+            officesViewController.initialize(this, primaryStage, currentUser, officeData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Office showOfficeEditPage(Stage primaryStage, Office clickedOffice) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/officeEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        OfficeEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedOffice);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedOffice();
+        }else{
+            return null;
+        }
+    }
+
+    public void showJobsDB(Stage primaryStage){
+        try{
+            ObservableList<Job> jobData = requests.getJobs();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/jobs.fxml"));
+            AnchorPane jobs = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(jobs);
+            JobsViewController jobsViewController = loader.getController();
+            jobsViewController.initialize(this, primaryStage, currentUser, jobData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Job showJobEditPage(Stage primaryStage, Job clickedJob) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/jobEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        JobEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedJob);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedJob();
+        }else{
+            return null;
+        }
+    }
+
+
+    public void showRatesDB(Stage primaryStage){
+        try{
+            ObservableList<Rate> rateData = requests.getRates();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/rates.fxml"));
+            AnchorPane rates = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(rates);
+            RatesViewController ratesViewController = loader.getController();
+            ratesViewController.initialize(this, primaryStage, currentUser, rateData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Rate showRateEditPage(Stage primaryStage, Rate clickedRate) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/rateEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        RateEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedRate);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedRate();
         }else{
             return null;
         }

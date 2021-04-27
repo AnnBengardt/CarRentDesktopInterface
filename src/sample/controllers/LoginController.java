@@ -23,10 +23,6 @@ public class LoginController {
     private Main mainApp;
     private Stage stage;
 
-    public void setMainApp(Main mainApp) {
-        this.mainApp = mainApp;
-    }
-
     RestApiRequests requests = new RestApiRequests();
 
     public void initialize(Main mainApp, Stage stage){

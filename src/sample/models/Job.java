@@ -24,7 +24,7 @@ public class Job {
         this.jobName = new SimpleStringProperty(jobName);
     }
 
-    public Job(){ this(null, null);}
+    public Job(){ this(null);}
 
     public long getJobId() {
         return jobId.get();
@@ -49,7 +49,11 @@ public class Job {
     public String toJson() {
 
         Map<String, String> map = new HashMap<>();
-        map.put("jobId", String.valueOf(jobId.get()));
+        if (jobId == null){
+            map.put("jobId", null);
+        } else{
+            map.put("jobId", String.valueOf(jobId.get()));
+        }
         map.put("jobName", String.valueOf(jobName.get()));
 
         Gson gson = new Gson();

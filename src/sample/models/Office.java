@@ -2,6 +2,7 @@ package sample.models;
 
 import com.google.gson.Gson;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.HashMap;
@@ -92,7 +93,11 @@ public class Office {
     public String toJson() {
 
         Map<String, String> map = new HashMap<>();
-        map.put("officeId", String.valueOf(officeId.get()));
+        if (officeId == null){
+            map.put("officeId", null);
+        } else{
+            map.put("officeId", String.valueOf(officeId.get()));
+        }
         map.put("city", String.valueOf(city.get()));
         map.put("street", String.valueOf(street.get()));
         map.put("house", String.valueOf(house.get()));

@@ -13,7 +13,7 @@
                         <MenuItem mnemonicParsing="false" text="Employees" onAction="#handleShowEmployees"/>
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Offices" />
+                        <MenuItem mnemonicParsing="false" text="Offices" onAction="#handleShowOffices"/>
                     </items>
                     <items>
                         <MenuItem mnemonicParsing="false" text="Cars" />
@@ -25,10 +25,10 @@
                         <MenuItem mnemonicParsing="false" text="Rents" />
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Rates" />
+                        <MenuItem mnemonicParsing="false" text="Rates" onAction="#handleShowRates"/>
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Jobs" />
+                        <MenuItem mnemonicParsing="false" text="Jobs" onAction="#handleShowJobs" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

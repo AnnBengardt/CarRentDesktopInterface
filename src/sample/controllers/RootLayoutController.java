@@ -36,6 +36,15 @@ public class RootLayoutController {
     }
 
     @FXML
+    public void handleShowOffices() {mainApp.showOfficesDB(stage);}
+
+    @FXML
+    public void handleShowJobs() {mainApp.showJobsDB(stage);}
+
+    @FXML
+    public void handleShowRates() {mainApp.showRatesDB(stage);}
+
+    @FXML
     public void handleLogout() {
         mainApp.setCurrentUser(null);
         mainApp.start(stage);

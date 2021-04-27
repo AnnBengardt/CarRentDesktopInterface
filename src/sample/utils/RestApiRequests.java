@@ -1,13 +1,12 @@
 package sample.utils;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.models.Employee;
 import sample.models.Job;
 import sample.models.Office;
+import sample.models.Rate;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -148,11 +147,29 @@ public class RestApiRequests {
         }
     }
 
+    public Boolean deleteJob(Job job) throws IOException {
+        Long id = job.getJobId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "jobs/" + id);
+        return value;
+    }
+
+    public void createJob(Job job){
+        System.out.println(job.toJson());
+        HttpConnection.PostRequest(ServerURL + "jobs", job.toJson());
+    }
+
+    public void updateJob(Job job){
+        System.out.println(job.toJson());
+        HttpConnection.PutRequest(ServerURL + "jobs/" +job.getJobId(), job.toJson());
+    }
+
     public Office getOfficeById(Long officeId) {
         String value = HttpConnection.GetRequest(ServerURL + "offices/" + officeId);
         if (value.equals("null")) {
             Office resultOffice = new Office();
-            return resultOffice;
+            return null;
         } else {
             JsonObject jsonResult = new JsonParser().parse(value).getAsJsonObject();
             Office office = parseOffice(jsonResult);
@@ -160,14 +177,99 @@ public class RestApiRequests {
         }
     }
 
+    public Boolean deleteOffice(Office office) throws IOException {
+        Long id = office.getOfficeId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "offices/" + id);
+        return value;
+    }
+
+    public void createOffice(Office office){
+        System.out.println(office.toJson());
+        HttpConnection.PostRequest(ServerURL + "offices", office.toJson());
+    }
+
+    public void updateOffice(Office office){
+        System.out.println(office.toJson());
+        HttpConnection.PutRequest(ServerURL + "offices/" +office.getOfficeId(), office.toJson());
+    }
+
     public void createEmployee(Employee employee){
         System.out.println(employee.toJson());
-        HttpConnection.PostRequest(ServerURL + "employees", employee.toJson());
+        HttpConnection.PostRequest(ServerURL + "employees/", employee.toJson());
     }
 
     public void updateEmployee(Employee employee){
         System.out.println(employee.toJson());
         HttpConnection.PutRequest(ServerURL + "employees/" +employee.getEmployeeId(), employee.toJson());
     }
+
+    public Employee getEmployeeById(Long id){
+        String value = HttpConnection.GetRequest(ServerURL + "employees/" + id);
+        if (value.equals("null")){
+            Employee resultEmployee = new Employee();
+            return resultEmployee;}
+        else{
+            JsonObject jsonResult = new JsonParser().parse(value).getAsJsonObject();
+
+            Long employeeId = jsonResult.get("employeeId").getAsLong();
+            String lastName = jsonResult.get("lastName").getAsString();
+            String firstName = jsonResult.get("firstName").getAsString();
+            String email = jsonResult.get("email").getAsString();
+            String hashedPassword = jsonResult.get("hashedPassword").getAsString();
+            JsonObject jobJson = jsonResult.get("job").getAsJsonObject();
+            Job job = parseJob(jobJson);
+            JsonObject officeJson = jsonResult.get("office").getAsJsonObject();
+            Office empOffice = parseOffice(officeJson);
+            Employee resultEmployee = new Employee(employeeId, firstName, lastName, email, hashedPassword,
+                    job, empOffice);
+            return resultEmployee;
+        }
+    }
+
+
+    private static Rate parseRate(JsonObject rate){
+        Long rateId = rate.get("rateId").getAsLong();
+        String rateName = rate.get("rateName").getAsString();
+        Double price = rate.get("price").getAsDouble();
+        return new Rate(rateId, rateName, price);
+    }
+
+    public ObservableList<Rate> getRates() throws IOException {
+        ObservableList<Rate> rateData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "rates");
+        if (value == null) {
+            return null;
+        } else {
+            JsonArray jsonResult = new JsonParser().parse(value).getAsJsonArray();
+
+            for (int i = 0; i < jsonResult.size(); i++) {
+                JsonObject currentRate = jsonResult.get(i).getAsJsonObject();
+                Rate rate = parseRate(currentRate);
+                rateData.add(rate);
+            }
+            return rateData;
+        }
+    }
+
+    public Boolean deleteRate(Rate rate) throws IOException {
+        Long id = rate.getRateId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "rates/" + id);
+        return value;
+    }
+
+    public void createRate(Rate rate){
+        System.out.println(rate.toJson());
+        HttpConnection.PostRequest(ServerURL + "rates", rate.toJson());
+    }
+
+    public void updateRate(Rate rate){
+        System.out.println(rate.toJson());
+        HttpConnection.PutRequest(ServerURL + "rates/" +rate.getRateId(), rate.toJson());
+    }
+
 
 }

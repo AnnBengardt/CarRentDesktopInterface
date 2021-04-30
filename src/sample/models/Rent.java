@@ -1,11 +1,13 @@
 package sample.models;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import sample.utils.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -36,7 +38,7 @@ public class Rent {
         this.rentId = null;
         this.startDate = new SimpleObjectProperty<>();
         this.endDate = new SimpleObjectProperty<>();
-        this.finalPrice = null;
+        this.finalPrice = new SimpleDoubleProperty();
         this.rate = new SimpleObjectProperty<Rate>();
         this.client = new SimpleObjectProperty<Client>();
         this.car = new SimpleObjectProperty<Car>();
@@ -141,7 +143,10 @@ public class Rent {
         map.put("rate", new Gson().fromJson(rate.get().toJson(), JsonObject.class));
         map.put("client", new Gson().fromJson(client.get().toJson(), JsonObject.class));
         map.put("car", new Gson().fromJson(car.get().toJson(), JsonObject.class));
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
         return gson.toJson(map);
     }
 

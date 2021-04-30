@@ -2,8 +2,10 @@ package sample.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,16 +16,16 @@ public class Car {
     private final SimpleDoubleProperty startingPrice;
     private final SimpleBooleanProperty status;
     private final SimpleObjectProperty<Office> office;
-    private final SimpleObjectProperty<Insurance> insurance;
+    private final ReadOnlyStringWrapper brandAndPrice = new ReadOnlyStringWrapper();
 
 
-    public Car(Long id, String brand, Double startingPrice, Boolean status, Office office, Insurance insurance){
+    public Car(Long id, String brand, Double startingPrice, Boolean status, Office office){
         this.carId = new SimpleLongProperty(id);
         this.brand = new SimpleStringProperty(brand);
         this.startingPrice = new SimpleDoubleProperty(startingPrice);
         this.status = new SimpleBooleanProperty(status);
         this.office = new SimpleObjectProperty<>(office);
-        this.insurance = new SimpleObjectProperty<>(insurance);
+        brandAndPrice.bind(Bindings.concat(this.brand, " - ", this.startingPrice));
     }
 
     public Car(String brand){
@@ -32,10 +34,19 @@ public class Car {
         this.startingPrice = new SimpleDoubleProperty();
         this.status = new SimpleBooleanProperty();
         this.office = new SimpleObjectProperty<Office>();
-        this.insurance = new SimpleObjectProperty<Insurance>();
+        brandAndPrice.bind(Bindings.concat(this.brand, " - ", this.startingPrice));
     }
 
     public Car(){this(null);}
+
+
+    public String getBrandAndPrice() {
+        return brandAndPrice.get();
+    }
+
+    public ReadOnlyStringWrapper brandAndPriceProperty() {
+        return brandAndPrice;
+    }
 
     public long getCarId() {
         return carId.get();
@@ -93,18 +104,6 @@ public class Car {
         this.office.set(office);
     }
 
-    public Insurance getInsurance() {
-        return insurance.get();
-    }
-
-    public SimpleObjectProperty<Insurance> insuranceProperty() {
-        return insurance;
-    }
-
-    public void setInsurance(Insurance insurance) {
-        this.insurance.set(insurance);
-    }
-
 
     public String toJson() {
 
@@ -118,7 +117,6 @@ public class Car {
         map.put("startingPrice", String.valueOf(startingPrice.get()));
         map.put("status", String.valueOf(status.get()));
         map.put("office", new Gson().fromJson(office.get().toJson(), JsonObject.class));
-        map.put("insurance", new Gson().fromJson(insurance.get().toJson(), JsonObject.class));
         Gson gson = new Gson();
         return gson.toJson(map);
     }

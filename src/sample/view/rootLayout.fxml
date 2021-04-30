@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.RootLayoutController">
+<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.RootLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -16,13 +16,13 @@
                         <MenuItem mnemonicParsing="false" text="Offices" onAction="#handleShowOffices"/>
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Cars" />
+                        <MenuItem mnemonicParsing="false" text="Cars" onAction="#handleShowCars"/>
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Clients" />
+                        <MenuItem mnemonicParsing="false" text="Clients" onAction="#handleShowClients" />
                     </items>
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Rents" />
+                        <MenuItem mnemonicParsing="false" text="Rents" onAction="#handleShowRents"/>
                     </items>
                     <items>
                         <MenuItem mnemonicParsing="false" text="Rates" onAction="#handleShowRates"/>
@@ -33,7 +33,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="About" onAction="#handleShowAbout"/>
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="Profile">

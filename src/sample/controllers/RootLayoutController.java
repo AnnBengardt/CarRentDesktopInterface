@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sample.Main;
 
+import java.io.IOException;
+
 public class RootLayoutController {
 
     /*@FXML
@@ -43,6 +45,18 @@ public class RootLayoutController {
 
     @FXML
     public void handleShowRates() {mainApp.showRatesDB(stage);}
+
+    @FXML
+    public void handleShowCars() {mainApp.showCarsDB(stage);}
+
+    @FXML
+    public void handleShowClients() {mainApp.showClientsDB(stage);}
+
+    @FXML
+    public void handleShowRents() {mainApp.showRentDB(stage);}
+
+    @FXML
+    public void handleShowAbout() throws IOException {mainApp.showAbout();}
 
     @FXML
     public void handleLogout() {

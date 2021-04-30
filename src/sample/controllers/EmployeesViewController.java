@@ -28,6 +28,9 @@ public class EmployeesViewController {
     @FXML
     private TableColumn<Employee, String> lastNameColumn;
 
+    @FXML
+    private TableColumn<Employee, String> officeColumn;
+
     public void setEmployeeTableView(TableView<Employee> employeeTableView) {
         this.employeeTableView = employeeTableView;
     }
@@ -54,6 +57,7 @@ public class EmployeesViewController {
 
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        officeColumn.setCellValueFactory(cellData -> cellData.getValue().getOffice().fullNameProperty());
 
         showEmployeeDetails(null);
         employeeTableView.getSelectionModel().selectedItemProperty().addListener(

@@ -2,6 +2,8 @@ package sample.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,6 +21,9 @@ public class Client {
     private final SimpleStringProperty phone;
     private final SimpleBooleanProperty isBlackListed;
 
+    private final ReadOnlyStringWrapper fullName = new ReadOnlyStringWrapper();
+
+
     public Client(Long id, String firstName, String lastName, String driverLicense, String passport,
                   String phone, Boolean isBlackListed){
         this.clientId = new SimpleLongProperty(id);
@@ -28,6 +33,7 @@ public class Client {
         this.passport = new SimpleStringProperty(passport);
         this.phone = new SimpleStringProperty(phone);
         this.isBlackListed = new SimpleBooleanProperty(isBlackListed);
+        fullName.bind(Bindings.concat(firstName, " ", lastName));
     }
 
     public Client(String firstName, String lastName, String driverLicense, String passport, String phone){
@@ -38,7 +44,17 @@ public class Client {
         this.passport = new SimpleStringProperty(passport);
         this.phone = new SimpleStringProperty(phone);
         this.isBlackListed = new SimpleBooleanProperty();
+        fullName.bind(Bindings.concat(firstName, " ", lastName));
     }
+
+    public String getFullName() {
+        return fullName.get();
+    }
+
+    public ReadOnlyStringWrapper fullNameProperty() {
+        return fullName;
+    }
+
 
     public Client() {this(null, null, null, null, null);}
 

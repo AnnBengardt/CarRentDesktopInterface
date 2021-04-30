@@ -10,10 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controllers.*;
-import sample.models.Employee;
-import sample.models.Job;
-import sample.models.Office;
-import sample.models.Rate;
+import sample.models.*;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
@@ -242,6 +239,160 @@ public class Main extends Application {
         }else{
             return null;
         }
+    }
+
+    public void showCarsDB(Stage primaryStage){
+        try{
+            ObservableList<Car> carData = requests.getCars();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/cars.fxml"));
+            AnchorPane cars = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(cars);
+            CarsViewController viewController = loader.getController();
+            viewController.initialize(this, primaryStage, currentUser, carData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void showCarsDB(Stage primaryStage, ObservableList<Car> newCarData){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/cars.fxml"));
+            AnchorPane cars = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(cars);
+            CarsViewController viewController = loader.getController();
+            viewController.initialize(this, primaryStage, currentUser, newCarData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Car showCarEditPage(Stage primaryStage, Car clickedCar) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/carEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        CarEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedCar);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedCar();
+        }else{
+            return null;
+        }
+    }
+
+
+    public void showClientsDB(Stage primaryStage){
+        try{
+            ObservableList<Client> clientData = requests.getClients();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/clients.fxml"));
+            AnchorPane clients = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(clients);
+            ClientsViewController viewController = loader.getController();
+            viewController.initialize(this, primaryStage, clientData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Client showClientEditPage(Stage primaryStage, Client clickedClient) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/clientEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        ClientEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedClient);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedClient();
+        }else{
+            return null;
+        }
+    }
+
+
+    public void showRentDB(Stage primaryStage){
+        try{
+            ObservableList<Rent> rentData = requests.getRents();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/rents.fxml"));
+            AnchorPane rents = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(rents);
+            RentsViewController viewController = loader.getController();
+            viewController.initialize(this, primaryStage, rentData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void showRentDB(Stage primaryStage, ObservableList<Rent> newRentData){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/rents.fxml"));
+            AnchorPane rents = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(rents);
+            RentsViewController viewController = loader.getController();
+            viewController.initialize(this, primaryStage, newRentData);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Rent showRentsEditPage(Stage primaryStage, Rent clickedRent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/rentEdit.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("EDIT");
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        RentEditController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedRent);
+        dialogueStage.showAndWait();
+        if (controller.isOkClicked()){
+            return controller.getClickedRent();
+        }else{
+            return null;
+        }
+    }
+
+    public void showAbout() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/about.fxml"));
+        AnchorPane aboutPage = (AnchorPane) loader.load();
+
+        rootLayout.setCenter(aboutPage);
     }
 
 

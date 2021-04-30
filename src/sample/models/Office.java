@@ -1,6 +1,8 @@
 package sample.models;
 
 import com.google.gson.Gson;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,6 +17,7 @@ public class Office {
     private final SimpleStringProperty street;
     private final SimpleStringProperty house;
     private final SimpleStringProperty email;
+    private final ReadOnlyStringWrapper fullName = new ReadOnlyStringWrapper();
 
     public Office(Long id, String city, String street, String house, String email){
         this.officeId = new SimpleLongProperty(id);
@@ -22,6 +25,7 @@ public class Office {
         this.street = new SimpleStringProperty(street);
         this.house = new SimpleStringProperty(house);
         this.email = new SimpleStringProperty(email);
+        fullName.bind(Bindings.concat(city, ", ", street));
     }
 
     public Office(String city, String street, String house, String email){
@@ -30,7 +34,17 @@ public class Office {
         this.street = new SimpleStringProperty(street);
         this.house = new SimpleStringProperty(house);
         this.email = new SimpleStringProperty(email);
+        fullName.bind(Bindings.concat(city, ", ", street));
     }
+
+    public String getFullName() {
+        return fullName.get();
+    }
+
+    public ReadOnlyStringWrapper fullNameProperty() {
+        return fullName;
+    }
+
 
     public Office(){this(null, null, null, null);}
 

@@ -2,6 +2,7 @@ package sample.models;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ public class Employee {
     private final StringProperty hashedPassword;
     private final ObjectProperty<Job> job;
     private final ObjectProperty<Office> office;
+
 
 
     public Employee(Long employeeId, String firstName, String lastName, String email, String hashedPassword,
@@ -38,6 +40,7 @@ public class Employee {
         this.job = new SimpleObjectProperty<Job>();
         this.office = new SimpleObjectProperty<Office>();
     }
+
 
     public Employee(){this(null, null, null ,null);}
 

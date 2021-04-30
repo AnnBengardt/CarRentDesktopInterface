@@ -3,10 +3,7 @@ package sample.utils;
 import com.google.gson.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.models.Employee;
-import sample.models.Job;
-import sample.models.Office;
-import sample.models.Rate;
+import sample.models.*;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -130,6 +127,51 @@ public class RestApiRequests {
             return officeData;
         }
     }
+
+    public ObservableList<Rent> getRentsByOfficeId(Long id) throws IOException {
+        ObservableList<Rent> rentData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "rents/findbyoffice/"+id);
+        if (value.equals("null")) {
+            return null;
+        } else {
+
+            JsonElement jsonResult = new JsonParser().parse(value);
+            if (jsonResult instanceof JsonObject){
+                rentData.add(parseRent(jsonResult.getAsJsonObject()));
+            } else {
+                JsonArray rents = jsonResult.getAsJsonArray();
+                for (int i = 0; i < rents.size(); i++) {
+                    JsonObject currentRent = rents.get(i).getAsJsonObject();
+                    Rent rent = parseRent(currentRent);
+                    rentData.add(rent);}
+            }
+            return rentData;
+        }
+    }
+
+
+    public ObservableList<Car> getCarsByOfficeId(Long id) throws IOException {
+        ObservableList<Car> carData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "cars/findbyoffice/"+id);
+        if (value==null) {
+            return null;
+        } else {
+
+            JsonElement jsonResult = new JsonParser().parse(value);
+            if (jsonResult instanceof JsonObject){
+                carData.add(parseCar(jsonResult.getAsJsonObject()));
+            } else {
+                JsonArray cars = jsonResult.getAsJsonArray();
+                for (int i = 0; i < cars.size(); i++) {
+                    JsonObject currentCar = cars.get(i).getAsJsonObject();
+                    Car car = parseCar(currentCar);
+                    carData.add(car);}
+            }
+            return carData;
+        }
+    }
+
+
 
     public Job getJobById(Long jobId) {
         System.out.println(jobId);
@@ -271,5 +313,207 @@ public class RestApiRequests {
         HttpConnection.PutRequest(ServerURL + "rates/" +rate.getRateId(), rate.toJson());
     }
 
+
+    public Boolean deleteCar(Car car) throws IOException {
+        Long id = car.getCarId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "cars/" + id);
+        return value;
+    }
+
+    public void createCar(Car car){
+        System.out.println(car.toJson());
+        HttpConnection.PostRequest(ServerURL + "cars", car.toJson());
+    }
+
+    public void updateCar(Car car){
+        System.out.println(car.toJson());
+        HttpConnection.PutRequest(ServerURL + "cars/" +car.getCarId(), car.toJson());
+    }
+
+    private static Insurance parseInsurance(JsonObject jsonInsurance){
+        Long insuranceId = jsonInsurance.get("insuranceId").getAsLong();
+        LocalDate startDate = DateUtil.parse(jsonInsurance.get("startDate").getAsString());
+        LocalDate endDate = DateUtil.parse(jsonInsurance.get("endDate").getAsString());
+        Car car = parseCar(jsonInsurance.get("car").getAsJsonObject());
+        Double price = jsonInsurance.get("price").getAsDouble();
+        return new Insurance(insuranceId, startDate, endDate, price, car);
+    }
+
+    private static Car parseCar(JsonObject car){
+        Long carId = car.get("carId").getAsLong();
+        String brand = car.get("brand").getAsString();
+        Double startingPrice = car.get("startingPrice").getAsDouble();
+        Boolean status = car.get("status").getAsBoolean();
+        Office office = parseOffice(car.get("office").getAsJsonObject());
+        return new Car(carId, brand, startingPrice, status, office);
+    }
+
+    public ObservableList<Car> getCars() throws IOException {
+        ObservableList<Car> carData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "cars");
+        if (value.equals("null")) {
+            return null;
+        } else {
+            JsonArray jsonResult = new JsonParser().parse(value).getAsJsonArray();
+
+            for (int i = 0; i < jsonResult.size(); i++) {
+                JsonObject currentCar = jsonResult.get(i).getAsJsonObject();
+                Car car = parseCar(currentCar);
+                carData.add(car);
+            }
+            return carData;
+        }
+    }
+
+    public void createInsurance(Insurance insurance){
+        System.out.println(insurance.toJson());
+        HttpConnection.PostRequest(ServerURL + "insurances", insurance.toJson());
+    }
+
+    public void updateInsurance(Insurance insurance){
+        System.out.println(insurance.toJson());
+        HttpConnection.PutRequest(ServerURL + "insurances/" +insurance.getInsuranceId(), insurance.toJson());
+    }
+
+    public Insurance getInsuranceByCarId(Car car){
+        Long id = car.getCarId();
+        String value = HttpConnection.GetRequest(ServerURL + "insurances/findbycar/" + id);
+        if (value.equals("null")) {
+            return null;
+        } else {
+            JsonObject jsonInsurance = new JsonParser().parse(value).getAsJsonObject();
+            return parseInsurance(jsonInsurance);
+        }
+    }
+
+    public Boolean deleteClient(Client client) throws IOException {
+        Long id = client.getClientId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "clients/" + id);
+        return value;
+    }
+
+    public void createClient(Client client){
+        System.out.println(client.toJson());
+        HttpConnection.PostRequest(ServerURL + "clients", client.toJson());
+    }
+
+    public void updateClient(Client client){
+        System.out.println(client.toJson());
+        HttpConnection.PutRequest(ServerURL + "clients/" +client.getClientId(), client.toJson());
+    }
+
+    private static Client parseClient(JsonObject jsonClient){
+        Long clientId = jsonClient.get("clientId").getAsLong();
+        String lastName = jsonClient.get("lastName").getAsString();
+        String firstName = jsonClient.get("firstName").getAsString();
+        String driverLicense = jsonClient.get("driverLicense").getAsString();
+        String passport = jsonClient.get("passport").getAsString();
+        String phone = jsonClient.get("phone").getAsString();
+        Boolean isBlackListed = jsonClient.get("isBlackListed").getAsBoolean();
+        return new Client(clientId, lastName, firstName, driverLicense, passport, phone, isBlackListed);
+    }
+
+    public ObservableList<Client> getClients() throws IOException {
+        ObservableList<Client> clientData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "clients");
+        if (value==null) {
+            return null;
+        } else {
+            JsonArray jsonResult = new JsonParser().parse(value).getAsJsonArray();
+
+            for (int i = 0; i < jsonResult.size(); i++) {
+                JsonObject currentClient = jsonResult.get(i).getAsJsonObject();
+                Client client = parseClient(currentClient);
+                clientData.add(client);
+            }
+            return clientData;
+        }
+    }
+
+    public Boolean deleteRent(Rent rent) throws IOException {
+        Long id = rent.getRentId();
+        if (id == null)
+            return false;
+        Boolean value = HttpConnection.DeleteRequest(ServerURL + "rents/" + id);
+        return value;
+    }
+
+    public void createRent(Rent rent){
+        System.out.println(rent.toJson());
+        HttpConnection.PostRequest(ServerURL + "rents", rent.toJson());
+    }
+
+    public void updateRent(Rent rent){
+        System.out.println(rent.toJson());
+        HttpConnection.PutRequest(ServerURL + "rents/" +rent.getRentId(), rent.toJson());
+    }
+
+    private static Rent parseRent(JsonObject jsonRent){
+        Long rentId = jsonRent.get("rentId").getAsLong();
+        LocalDate startDate = DateUtil.parse(jsonRent.get("startDate").getAsString());
+        LocalDate endDate = DateUtil.parse(jsonRent.get("endDate").getAsString());
+        Double finalPrice = jsonRent.get("finalPrice").getAsDouble();
+        Rate rate = parseRate(jsonRent.get("rate").getAsJsonObject());
+        Client client = parseClient(jsonRent.get("client").getAsJsonObject());
+        Car car = parseCar(jsonRent.get("car").getAsJsonObject());
+        return new Rent(rentId, startDate, endDate, finalPrice, rate, client, car);
+    }
+
+    public ObservableList<Rent> getRents() throws IOException {
+        ObservableList<Rent> rentData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "rents");
+        if (value==null) {
+            return null;
+        } else {
+            JsonArray jsonResult = new JsonParser().parse(value).getAsJsonArray();
+
+            for (int i = 0; i < jsonResult.size(); i++) {
+                JsonObject currentRent = jsonResult.get(i).getAsJsonObject();
+                Rent rent = parseRent(currentRent);
+                rentData.add(rent);
+            }
+            return rentData;
+        }
+    }
+
+    public Client getClientById(Long clientId) {
+        String value = HttpConnection.GetRequest(ServerURL + "clients/" + clientId);
+        if (value.equals("null")) {
+            Client resultClient = new Client();
+            return null;
+        } else {
+            JsonObject jsonResult = new JsonParser().parse(value).getAsJsonObject();
+            Client client = parseClient(jsonResult);
+            return client;
+        }
+    }
+
+    public Car getCarById(Long carId) {
+        String value = HttpConnection.GetRequest(ServerURL + "cars/" + carId);
+        if (value.equals("null")) {
+            Car resultCar = new Car();
+            return null;
+        } else {
+            JsonObject jsonResult = new JsonParser().parse(value).getAsJsonObject();
+            Car car = parseCar(jsonResult);
+            return car;
+        }
+    }
+
+    public Rate getRateById(Long rateId) {
+        String value = HttpConnection.GetRequest(ServerURL + "rates/" + rateId);
+        if (value.equals("null")) {
+            Rate resultRate = new Rate();
+            return null;
+        } else {
+            JsonObject jsonResult = new JsonParser().parse(value).getAsJsonObject();
+            Rate rate = parseRate(jsonResult);
+            return rate;
+        }
+    }
 
 }

@@ -29,8 +29,8 @@
                 <ChoiceBox fx:id="carBox" prefHeight="26.0" prefWidth="214.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <ChoiceBox fx:id="rateBox" prefHeight="26.0" prefWidth="214.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <DatePicker fx:id="startDate"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <DatePicker fx:id="endDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="endDate"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 
             </children>
         </GridPane>

@@ -10,6 +10,9 @@ import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Employees view controller.
+ */
 public class EmployeesViewController {
 
     private Main mainApp;
@@ -17,6 +20,9 @@ public class EmployeesViewController {
     private Employee currentUser;
     private ObservableList<Employee> employeeData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -31,6 +37,11 @@ public class EmployeesViewController {
     @FXML
     private TableColumn<Employee, String> officeColumn;
 
+    /**
+     * Sets employee table view.
+     *
+     * @param employeeTableView the employee table view
+     */
     public void setEmployeeTableView(TableView<Employee> employeeTableView) {
         this.employeeTableView = employeeTableView;
     }
@@ -48,6 +59,14 @@ public class EmployeesViewController {
     @FXML
     private Label officeLabel;
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     * @param empData     the emp data
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser, ObservableList<Employee> empData){
         this.mainApp = mainApp;
         this.stage = stage;
@@ -142,6 +161,11 @@ public class EmployeesViewController {
         }
     }
 
+    /**
+     * Gets employee data.
+     *
+     * @return the employee data
+     */
     public ObservableList<Employee> getEmployeeData() {
         return employeeData;
     }

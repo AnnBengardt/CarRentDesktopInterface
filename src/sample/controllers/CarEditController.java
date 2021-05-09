@@ -1,6 +1,5 @@
 package sample.controllers;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -12,16 +11,16 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Car;
-import sample.models.Employee;
-import sample.models.Job;
 import sample.models.Office;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * The type Car edit controller.
+ */
 public class CarEditController {
 
     @FXML
@@ -42,6 +41,14 @@ public class CarEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp    the main app
+     * @param stage      the stage
+     * @param clickedCar the clicked car
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Car clickedCar) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -58,6 +65,12 @@ public class CarEditController {
         return values;
     }
 
+    /**
+     * Sets car.
+     *
+     * @param car the car
+     * @throws IOException the io exception
+     */
     public void setCar(Car car) throws IOException {
         ObservableList<String> officeValues = FXCollections.observableArrayList(getOfficeValues(requests).values());
         brandField.setText(car.getBrand());
@@ -71,10 +84,20 @@ public class CarEditController {
         }
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked car.
+     *
+     * @return the clicked car
+     */
     public Car getClickedCar() {
         return clickedCar;
     }

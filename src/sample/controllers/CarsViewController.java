@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,6 +22,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * The type Cars view controller.
+ */
 public class CarsViewController {
 
     private Main mainApp;
@@ -28,6 +32,9 @@ public class CarsViewController {
     private Employee currentUser;
     private ObservableList<Car> carData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -42,6 +49,11 @@ public class CarsViewController {
     @FXML
     private TableColumn<Car, String> statusColumn;
 
+    /**
+     * Sets car table view.
+     *
+     * @param carTableView the car table view
+     */
     public void setCarTableView(TableView<Car> carTableView) {
         this.carTableView = carTableView;
     }
@@ -60,6 +72,15 @@ public class CarsViewController {
     @FXML
     private ChoiceBox<String> officeFilter;
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     * @param carData     the car data
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser, ObservableList<Car> carData) throws IOException {
         this.mainApp = mainApp;
         this.stage = stage;
@@ -194,8 +215,8 @@ public class CarsViewController {
         }
 
     @FXML
-    private void handleGetStatistics(){
-        System.out.println("Statistics");
+    private void handleGetStatistics() throws IOException {
+        mainApp.showStats(stage, carTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -206,7 +227,9 @@ public class CarsViewController {
         AnchorPane insurancePage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Insurance");
+        dialogueStage.getIcons().add(new Image(
+                CarsViewController.class.getResourceAsStream( "money.png" )));
         dialogueStage.initOwner(stage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(insurancePage);
@@ -217,6 +240,11 @@ public class CarsViewController {
         dialogueStage.showAndWait();
     }
 
+    /**
+     * Gets car data.
+     *
+     * @return the car data
+     */
     public ObservableList<Car> getCarData() {
         return carData;
     }

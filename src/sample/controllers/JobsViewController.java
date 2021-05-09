@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Employee;
 import sample.models.Job;
-import sample.models.Office;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Jobs view controller.
+ */
 public class JobsViewController {
 
     private Main mainApp;
@@ -19,6 +21,9 @@ public class JobsViewController {
     private Employee currentUser;
     private ObservableList<Job> jobData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -37,6 +42,14 @@ public class JobsViewController {
     private Label nameLabel;
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     * @param offData     the off data
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser, ObservableList<Job> offData){
         this.mainApp = mainApp;
         this.stage = stage;
@@ -122,6 +135,11 @@ public class JobsViewController {
         }
     }
 
+    /**
+     * Gets job data.
+     *
+     * @return the job data
+     */
     public ObservableList<Job> getJobData() {
         return jobData;
     }

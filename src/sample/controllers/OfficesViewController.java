@@ -11,6 +11,9 @@ import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Offices view controller.
+ */
 public class OfficesViewController {
 
     private Main mainApp;
@@ -18,6 +21,9 @@ public class OfficesViewController {
     private Employee currentUser;
     private ObservableList<Office> officeData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -39,6 +45,14 @@ public class OfficesViewController {
     private Label houseLabel;
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     * @param offData     the off data
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser, ObservableList<Office> offData){
         this.mainApp = mainApp;
         this.stage = stage;
@@ -128,6 +142,11 @@ public class OfficesViewController {
         }
     }
 
+    /**
+     * Gets office data.
+     *
+     * @return the office data
+     */
     public ObservableList<Office> getOfficeData() {
         return officeData;
     }

@@ -5,12 +5,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.models.Job;
 import sample.models.Rate;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Rate edit controller.
+ */
 public class RateEditController {
 
     @FXML
@@ -25,6 +27,14 @@ public class RateEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param clickedRate the clicked rate
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Rate clickedRate) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -33,6 +43,11 @@ public class RateEditController {
     }
 
 
+    /**
+     * Sets rate.
+     *
+     * @param rate the rate
+     */
     public void setRate(Rate rate) {
         nameField.setText(rate.getRateName());
         if (rate.priceProperty() == null){
@@ -41,10 +56,20 @@ public class RateEditController {
             priceField.setText(String.valueOf(rate.priceProperty().get()));}
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked rate.
+     *
+     * @return the clicked rate
+     */
     public Rate getClickedRate() {
         return clickedRate;
     }

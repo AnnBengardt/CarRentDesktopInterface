@@ -6,13 +6,14 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Employee;
-import sample.models.Job;
-import sample.models.Office;
 import sample.models.Rate;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Rates view controller.
+ */
 public class RatesViewController {
 
     private Main mainApp;
@@ -20,6 +21,9 @@ public class RatesViewController {
     private Employee currentUser;
     private ObservableList<Rate> rateData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -38,6 +42,14 @@ public class RatesViewController {
     private Label priceLabel;
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     * @param offData     the off data
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser, ObservableList<Rate> offData){
         this.mainApp = mainApp;
         this.stage = stage;
@@ -123,6 +135,11 @@ public class RatesViewController {
         }
     }
 
+    /**
+     * Gets rate data.
+     *
+     * @return the rate data
+     */
     public ObservableList<Rate> getRateData() {
         return rateData;
     }

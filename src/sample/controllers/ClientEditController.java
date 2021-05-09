@@ -16,6 +16,9 @@ import sample.utils.RestApiRequests;
 import java.io.IOException;
 
 
+/**
+ * The type Client edit controller.
+ */
 public class ClientEditController {
 
     @FXML
@@ -43,6 +46,14 @@ public class ClientEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp       the main app
+     * @param stage         the stage
+     * @param clickedClient the clicked client
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Client clickedClient) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -51,6 +62,11 @@ public class ClientEditController {
     }
 
 
+    /**
+     * Sets client.
+     *
+     * @param client the client
+     */
     public void setClient(Client client) {
         lastNameField.setText(client.getLastName());
         firstNameField.setText(client.getFirstName());
@@ -62,10 +78,20 @@ public class ClientEditController {
         }
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked client.
+     *
+     * @return the clicked client
+     */
     public Client getClickedClient() {
         return clickedClient;
     }

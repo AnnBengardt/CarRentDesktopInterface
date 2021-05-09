@@ -6,19 +6,22 @@ import javafx.collections.ObservableList;
 import sample.models.*;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
+/**
+ * The type Rest api requests.
+ */
 public class RestApiRequests {
 
     private static final String ServerURL = "http://localhost:8080/api/";
 
+    /**
+     * Get employee by email employee.
+     *
+     * @param loginEmail the login email
+     * @return the employee
+     */
     public Employee getEmployeeByEmail(String loginEmail){
         String value = HttpConnection.GetRequest(ServerURL + "employees/email/" + loginEmail);
         if (value.equals("null")){
@@ -43,6 +46,13 @@ public class RestApiRequests {
 
     }
 
+    /**
+     * Delete person boolean.
+     *
+     * @param employee the employee
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deletePerson(Employee employee) throws IOException {
         Long id = employee.getEmployeeId();
         if (id == null)
@@ -51,6 +61,12 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Gets employees.
+     *
+     * @return the employees
+     * @throws IOException the io exception
+     */
     public ObservableList<Employee> getEmployees() throws IOException{
         ObservableList<Employee> employeeData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "employees");
@@ -94,6 +110,12 @@ public class RestApiRequests {
         return new Office(officeId, city, street, house, email);
     }
 
+    /**
+     * Gets jobs.
+     *
+     * @return the jobs
+     * @throws IOException the io exception
+     */
     public ObservableList<Job> getJobs() throws IOException {
         ObservableList<Job> jobData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "jobs");
@@ -111,6 +133,12 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets offices.
+     *
+     * @return the offices
+     * @throws IOException the io exception
+     */
     public ObservableList<Office> getOffices() throws IOException {
         ObservableList<Office> officeData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "offices");
@@ -128,6 +156,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets rents by office id.
+     *
+     * @param id the id
+     * @return the rents by office id
+     * @throws IOException the io exception
+     */
     public ObservableList<Rent> getRentsByOfficeId(Long id) throws IOException {
         ObservableList<Rent> rentData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "rents/findbyoffice/"+id);
@@ -149,7 +184,42 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets rents by car id.
+     *
+     * @param id the id
+     * @return the rents by car id
+     * @throws IOException the io exception
+     */
+    public ObservableList<Rent> getRentsByCarId(Long id) throws IOException {
+        ObservableList<Rent> rentData = FXCollections.observableArrayList();
+        String value = HttpConnection.GetRequest(ServerURL + "rents/findbycar/"+id);
+        if (value.equals("null")) {
+            return null;
+        } else {
 
+            JsonElement jsonResult = new JsonParser().parse(value);
+            if (jsonResult instanceof JsonObject){
+                rentData.add(parseRent(jsonResult.getAsJsonObject()));
+            } else {
+                JsonArray rents = jsonResult.getAsJsonArray();
+                for (int i = 0; i < rents.size(); i++) {
+                    JsonObject currentRent = rents.get(i).getAsJsonObject();
+                    Rent rent = parseRent(currentRent);
+                    rentData.add(rent);}
+            }
+            return rentData;
+        }
+    }
+
+
+    /**
+     * Gets cars by office id.
+     *
+     * @param id the id
+     * @return the cars by office id
+     * @throws IOException the io exception
+     */
     public ObservableList<Car> getCarsByOfficeId(Long id) throws IOException {
         ObservableList<Car> carData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "cars/findbyoffice/"+id);
@@ -172,7 +242,12 @@ public class RestApiRequests {
     }
 
 
-
+    /**
+     * Gets job by id.
+     *
+     * @param jobId the job id
+     * @return the job by id
+     */
     public Job getJobById(Long jobId) {
         System.out.println(jobId);
         String value = HttpConnection.GetRequest(ServerURL + "jobs/" + jobId);
@@ -189,6 +264,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Delete job boolean.
+     *
+     * @param job the job
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteJob(Job job) throws IOException {
         Long id = job.getJobId();
         if (id == null)
@@ -197,16 +279,32 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create job.
+     *
+     * @param job the job
+     */
     public void createJob(Job job){
         System.out.println(job.toJson());
         HttpConnection.PostRequest(ServerURL + "jobs", job.toJson());
     }
 
+    /**
+     * Update job.
+     *
+     * @param job the job
+     */
     public void updateJob(Job job){
         System.out.println(job.toJson());
         HttpConnection.PutRequest(ServerURL + "jobs/" +job.getJobId(), job.toJson());
     }
 
+    /**
+     * Gets office by id.
+     *
+     * @param officeId the office id
+     * @return the office by id
+     */
     public Office getOfficeById(Long officeId) {
         String value = HttpConnection.GetRequest(ServerURL + "offices/" + officeId);
         if (value.equals("null")) {
@@ -219,6 +317,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Delete office boolean.
+     *
+     * @param office the office
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteOffice(Office office) throws IOException {
         Long id = office.getOfficeId();
         if (id == null)
@@ -227,26 +332,52 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create office.
+     *
+     * @param office the office
+     */
     public void createOffice(Office office){
         System.out.println(office.toJson());
         HttpConnection.PostRequest(ServerURL + "offices", office.toJson());
     }
 
+    /**
+     * Update office.
+     *
+     * @param office the office
+     */
     public void updateOffice(Office office){
         System.out.println(office.toJson());
         HttpConnection.PutRequest(ServerURL + "offices/" +office.getOfficeId(), office.toJson());
     }
 
+    /**
+     * Create employee.
+     *
+     * @param employee the employee
+     */
     public void createEmployee(Employee employee){
         System.out.println(employee.toJson());
         HttpConnection.PostRequest(ServerURL + "employees/", employee.toJson());
     }
 
+    /**
+     * Update employee.
+     *
+     * @param employee the employee
+     */
     public void updateEmployee(Employee employee){
         System.out.println(employee.toJson());
         HttpConnection.PutRequest(ServerURL + "employees/" +employee.getEmployeeId(), employee.toJson());
     }
 
+    /**
+     * Get employee by id employee.
+     *
+     * @param id the id
+     * @return the employee
+     */
     public Employee getEmployeeById(Long id){
         String value = HttpConnection.GetRequest(ServerURL + "employees/" + id);
         if (value.equals("null")){
@@ -278,6 +409,12 @@ public class RestApiRequests {
         return new Rate(rateId, rateName, price);
     }
 
+    /**
+     * Gets rates.
+     *
+     * @return the rates
+     * @throws IOException the io exception
+     */
     public ObservableList<Rate> getRates() throws IOException {
         ObservableList<Rate> rateData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "rates");
@@ -295,6 +432,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Delete rate boolean.
+     *
+     * @param rate the rate
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteRate(Rate rate) throws IOException {
         Long id = rate.getRateId();
         if (id == null)
@@ -303,17 +447,34 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create rate.
+     *
+     * @param rate the rate
+     */
     public void createRate(Rate rate){
         System.out.println(rate.toJson());
         HttpConnection.PostRequest(ServerURL + "rates", rate.toJson());
     }
 
+    /**
+     * Update rate.
+     *
+     * @param rate the rate
+     */
     public void updateRate(Rate rate){
         System.out.println(rate.toJson());
         HttpConnection.PutRequest(ServerURL + "rates/" +rate.getRateId(), rate.toJson());
     }
 
 
+    /**
+     * Delete car boolean.
+     *
+     * @param car the car
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteCar(Car car) throws IOException {
         Long id = car.getCarId();
         if (id == null)
@@ -322,11 +483,21 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create car.
+     *
+     * @param car the car
+     */
     public void createCar(Car car){
         System.out.println(car.toJson());
         HttpConnection.PostRequest(ServerURL + "cars", car.toJson());
     }
 
+    /**
+     * Update car.
+     *
+     * @param car the car
+     */
     public void updateCar(Car car){
         System.out.println(car.toJson());
         HttpConnection.PutRequest(ServerURL + "cars/" +car.getCarId(), car.toJson());
@@ -350,6 +521,12 @@ public class RestApiRequests {
         return new Car(carId, brand, startingPrice, status, office);
     }
 
+    /**
+     * Gets cars.
+     *
+     * @return the cars
+     * @throws IOException the io exception
+     */
     public ObservableList<Car> getCars() throws IOException {
         ObservableList<Car> carData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "cars");
@@ -367,16 +544,32 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Create insurance.
+     *
+     * @param insurance the insurance
+     */
     public void createInsurance(Insurance insurance){
         System.out.println(insurance.toJson());
         HttpConnection.PostRequest(ServerURL + "insurances", insurance.toJson());
     }
 
+    /**
+     * Update insurance.
+     *
+     * @param insurance the insurance
+     */
     public void updateInsurance(Insurance insurance){
         System.out.println(insurance.toJson());
         HttpConnection.PutRequest(ServerURL + "insurances/" +insurance.getInsuranceId(), insurance.toJson());
     }
 
+    /**
+     * Get insurance by car id insurance.
+     *
+     * @param car the car
+     * @return the insurance
+     */
     public Insurance getInsuranceByCarId(Car car){
         Long id = car.getCarId();
         String value = HttpConnection.GetRequest(ServerURL + "insurances/findbycar/" + id);
@@ -388,6 +581,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Delete client boolean.
+     *
+     * @param client the client
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteClient(Client client) throws IOException {
         Long id = client.getClientId();
         if (id == null)
@@ -396,11 +596,21 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create client.
+     *
+     * @param client the client
+     */
     public void createClient(Client client){
         System.out.println(client.toJson());
         HttpConnection.PostRequest(ServerURL + "clients", client.toJson());
     }
 
+    /**
+     * Update client.
+     *
+     * @param client the client
+     */
     public void updateClient(Client client){
         System.out.println(client.toJson());
         HttpConnection.PutRequest(ServerURL + "clients/" +client.getClientId(), client.toJson());
@@ -417,6 +627,12 @@ public class RestApiRequests {
         return new Client(clientId, lastName, firstName, driverLicense, passport, phone, isBlackListed);
     }
 
+    /**
+     * Gets clients.
+     *
+     * @return the clients
+     * @throws IOException the io exception
+     */
     public ObservableList<Client> getClients() throws IOException {
         ObservableList<Client> clientData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "clients");
@@ -434,6 +650,13 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Delete rent boolean.
+     *
+     * @param rent the rent
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public Boolean deleteRent(Rent rent) throws IOException {
         Long id = rent.getRentId();
         if (id == null)
@@ -442,11 +665,21 @@ public class RestApiRequests {
         return value;
     }
 
+    /**
+     * Create rent.
+     *
+     * @param rent the rent
+     */
     public void createRent(Rent rent){
         System.out.println(rent.toJson());
         HttpConnection.PostRequest(ServerURL + "rents", rent.toJson());
     }
 
+    /**
+     * Update rent.
+     *
+     * @param rent the rent
+     */
     public void updateRent(Rent rent){
         System.out.println(rent.toJson());
         HttpConnection.PutRequest(ServerURL + "rents/" +rent.getRentId(), rent.toJson());
@@ -463,6 +696,12 @@ public class RestApiRequests {
         return new Rent(rentId, startDate, endDate, finalPrice, rate, client, car);
     }
 
+    /**
+     * Gets rents.
+     *
+     * @return the rents
+     * @throws IOException the io exception
+     */
     public ObservableList<Rent> getRents() throws IOException {
         ObservableList<Rent> rentData = FXCollections.observableArrayList();
         String value = HttpConnection.GetRequest(ServerURL + "rents");
@@ -480,6 +719,12 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets client by id.
+     *
+     * @param clientId the client id
+     * @return the client by id
+     */
     public Client getClientById(Long clientId) {
         String value = HttpConnection.GetRequest(ServerURL + "clients/" + clientId);
         if (value.equals("null")) {
@@ -492,6 +737,12 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets car by id.
+     *
+     * @param carId the car id
+     * @return the car by id
+     */
     public Car getCarById(Long carId) {
         String value = HttpConnection.GetRequest(ServerURL + "cars/" + carId);
         if (value.equals("null")) {
@@ -504,6 +755,12 @@ public class RestApiRequests {
         }
     }
 
+    /**
+     * Gets rate by id.
+     *
+     * @param rateId the rate id
+     * @return the rate by id
+     */
     public Rate getRateById(Long rateId) {
         String value = HttpConnection.GetRequest(ServerURL + "rates/" + rateId);
         if (value.equals("null")) {

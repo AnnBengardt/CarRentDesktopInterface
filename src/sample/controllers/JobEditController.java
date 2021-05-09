@@ -10,6 +10,9 @@ import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Job edit controller.
+ */
 public class JobEditController {
 
     @FXML
@@ -21,6 +24,14 @@ public class JobEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp    the main app
+     * @param stage      the stage
+     * @param clickedJob the clicked job
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Job clickedJob) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -29,14 +40,29 @@ public class JobEditController {
     }
 
 
+    /**
+     * Sets job.
+     *
+     * @param job the job
+     */
     public void setJob(Job job) {
         nameField.setText(job.getJobName());
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked job.
+     *
+     * @return the clicked job
+     */
     public Job getClickedJob() {
         return clickedJob;
     }

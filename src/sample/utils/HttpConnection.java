@@ -7,7 +7,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Http connection.
+ */
 public class HttpConnection {
+    /**
+     * Get request string.
+     *
+     * @param urlString the url string
+     * @return the string
+     */
     public static String GetRequest(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -27,6 +36,13 @@ public class HttpConnection {
         }
     }
 
+    /**
+     * Post request string.
+     *
+     * @param urlString  the url string
+     * @param jsonString the json string
+     * @return the string
+     */
     public static String PostRequest(String urlString, String jsonString) {
         try {
             URL url = new URL(urlString);
@@ -59,6 +75,12 @@ public class HttpConnection {
         }
     }
 
+    /**
+     * Delete request boolean.
+     *
+     * @param urlString the url string
+     * @return the boolean
+     */
     public static boolean DeleteRequest(String urlString) {
         try {
 
@@ -77,6 +99,13 @@ public class HttpConnection {
         }
     }
 
+    /**
+     * Put request string.
+     *
+     * @param urlString  the url string
+     * @param jsonString the json string
+     * @return the string
+     */
     public static String PutRequest(String urlString, String jsonString) {
         try {
             URL url = new URL(urlString);

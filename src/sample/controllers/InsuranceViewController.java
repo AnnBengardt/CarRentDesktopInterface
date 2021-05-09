@@ -1,28 +1,28 @@
 package sample.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Car;
-import sample.models.Employee;
 import sample.models.Insurance;
-import sample.utils.DateUtil;
 import sample.utils.RestApiRequests;
 
 import java.time.LocalDate;
 
+/**
+ * The type Insurance view controller.
+ */
 public class InsuranceViewController {
 
     private Main mainApp;
     private Stage stage;
     private Insurance insurance;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -34,6 +34,14 @@ public class InsuranceViewController {
     @FXML
     private DatePicker endDate;
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp   the main app
+     * @param stage     the stage
+     * @param insurance the insurance
+     * @param car       the car
+     */
     public void initialize(Main mainApp, Stage stage, Insurance insurance, Car car) {
         this.mainApp = mainApp;
         this.stage = stage;
@@ -47,6 +55,11 @@ public class InsuranceViewController {
 
     }
 
+    /**
+     * Set insurance.
+     *
+     * @param insurance the insurance
+     */
     public void setInsurance(Insurance insurance){
         startDate.setValue(insurance.startDateProperty().get());
         endDate.setValue(insurance.endDateProperty().get());
@@ -66,6 +79,11 @@ public class InsuranceViewController {
     }
 
 
+    /**
+     * Gets insurance.
+     *
+     * @return the insurance
+     */
     public Insurance getInsurance() {
         return insurance;
     }

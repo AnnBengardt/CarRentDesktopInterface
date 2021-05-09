@@ -1,25 +1,19 @@
 package sample.controllers;
 
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.models.Employee;
-import sample.models.Job;
 import sample.models.Office;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Stream;
 
+
+/**
+ * The type Office edit controller.
+ */
 public class OfficeEditController {
 
     @FXML
@@ -41,6 +35,14 @@ public class OfficeEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp       the main app
+     * @param stage         the stage
+     * @param clickedOffice the clicked office
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Office clickedOffice) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -49,6 +51,11 @@ public class OfficeEditController {
     }
 
 
+    /**
+     * Sets office.
+     *
+     * @param office the office
+     */
     public void setOffice(Office office) {
         cityField.setText(office.getCity());
         streetField.setText(office.getStreet());
@@ -56,10 +63,20 @@ public class OfficeEditController {
         buildingField.setText(office.getHouse());
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked office.
+     *
+     * @return the clicked office
+     */
     public Office getClickedOffice() {
         return clickedOffice;
     }

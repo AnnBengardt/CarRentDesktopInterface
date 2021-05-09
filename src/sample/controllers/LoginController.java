@@ -11,6 +11,9 @@ import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Login controller.
+ */
 public class LoginController {
 
     @FXML
@@ -23,13 +26,27 @@ public class LoginController {
     private Main mainApp;
     private Stage stage;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp the main app
+     * @param stage   the stage
+     */
     public void initialize(Main mainApp, Stage stage){
         this.mainApp = mainApp;
         this.stage = stage;
     }
 
+    /**
+     * Handle login.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     public void handleLogin() throws IOException {
         if (isInputValid()){

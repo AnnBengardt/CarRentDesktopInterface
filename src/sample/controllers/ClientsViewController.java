@@ -7,18 +7,22 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Client;
-import sample.models.Employee;
-import sample.models.Office;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Clients view controller.
+ */
 public class ClientsViewController {
 
     private Main mainApp;
     private Stage stage;
     private ObservableList<Client> clientData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -44,6 +48,13 @@ public class ClientsViewController {
     private CheckBox blackListCheck;
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp the main app
+     * @param stage   the stage
+     * @param offData the off data
+     */
     public void initialize(Main mainApp, Stage stage, ObservableList<Client> offData){
         this.mainApp = mainApp;
         this.stage = stage;
@@ -138,6 +149,11 @@ public class ClientsViewController {
         }
 
 
+    /**
+     * Gets client data.
+     *
+     * @return the client data
+     */
     public ObservableList<Client> getClientData() {
         return clientData;
     }

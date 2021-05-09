@@ -5,11 +5,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.RentsViewController">
     <children>
-        <SplitPane dividerPositions="0.7929292929292929" orientation="VERTICAL" prefHeight="400.0" prefWidth="800.0">
+        <SplitPane dividerPositions="0.7929292929292929" orientation="VERTICAL" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <TableView fx:id="rentTableView" layoutX="-1.0" layoutY="2.0" prefHeight="314.0" prefWidth="800.0">
+                        <TableView fx:id="rentTableView" layoutX="-1.0" layoutY="2.0" prefHeight="314.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="clientColumn" prefWidth="155.79998475313187" text="Client" />
                                 <TableColumn fx:id="carColumn" prefWidth="138.6000213623047" text="Car" />
@@ -30,7 +30,7 @@
                                 <Button mnemonicParsing="false" onAction="#handleDeleteRent" text="Delete" />
                             </children>
                         </HBox>
-                  <GridPane layoutX="62.0" layoutY="39.0" prefHeight="26.0" prefWidth="288.0">
+                  <GridPane layoutX="62.0" layoutY="39.0" prefHeight="26.0" prefWidth="288.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.2" minWidth="10.0" prefWidth="120.8" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.2" minWidth="10.0" prefWidth="151.2" />

@@ -1,6 +1,5 @@
 package sample.controllers;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -16,10 +15,12 @@ import sample.models.Office;
 import sample.utils.RestApiRequests;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * The type Employee edit controller.
+ */
 public class EmployeeEditController {
 
     @FXML
@@ -46,6 +47,14 @@ public class EmployeeEditController {
     private boolean okClicked = false;
     private RestApiRequests requests = new RestApiRequests();
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param clickedUser the clicked user
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, Employee clickedUser) throws IOException {
         this.mainApp = mainApp;
         this.dialogueStage = stage;
@@ -71,6 +80,12 @@ public class EmployeeEditController {
         return values;
     }
 
+    /**
+     * Sets employee.
+     *
+     * @param employee the employee
+     * @throws IOException the io exception
+     */
     public void setEmployee(Employee employee) throws IOException {
         ObservableList<String> jobValues = FXCollections.observableArrayList(getJobValues(requests).values());
         ObservableList<String> officeValues = FXCollections.observableArrayList(getOfficeValues(requests).values());
@@ -88,10 +103,20 @@ public class EmployeeEditController {
         }
     }
 
+    /**
+     * Is ok clicked boolean.
+     *
+     * @return the boolean
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Gets clicked user.
+     *
+     * @return the clicked user
+     */
     public Employee getClickedUser() {
         return clickedUser;
     }

@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.models.Employee;
 import sample.models.Office;
 import sample.models.Rent;
 import sample.utils.RestApiRequests;
@@ -19,12 +18,18 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * The type Rents view controller.
+ */
 public class RentsViewController {
 
     private Main mainApp;
     private Stage stage;
     private ObservableList<Rent> rentData;
 
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
 
     @FXML
@@ -51,11 +56,24 @@ public class RentsViewController {
     @FXML
     private ChoiceBox<String> officeFilter;
 
+    /**
+     * Sets rent table view.
+     *
+     * @param rentTableView the rent table view
+     */
     public void setRentTableView(TableView<Rent> rentTableView) {
         this.rentTableView = rentTableView;
     }
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp  the main app
+     * @param stage    the stage
+     * @param rentData the rent data
+     * @throws IOException the io exception
+     */
     public void initialize(Main mainApp, Stage stage, ObservableList<Rent> rentData) throws IOException {
         this.mainApp = mainApp;
         this.stage = stage;
@@ -169,6 +187,11 @@ public class RentsViewController {
             }
         }
 
+    /**
+     * Gets rent data.
+     *
+     * @return the rent data
+     */
     public ObservableList<Rent> getRentData() {
         return rentData;
     }

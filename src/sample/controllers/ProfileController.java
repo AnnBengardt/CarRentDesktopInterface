@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 import sample.Main;
 import sample.models.Employee;
 
+/**
+ * The type Profile controller.
+ */
 public class ProfileController {
     private Main mainApp;
     private Stage stage;
@@ -22,6 +25,13 @@ public class ProfileController {
     private Label officeLabel;
 
 
+    /**
+     * Initialize.
+     *
+     * @param mainApp     the main app
+     * @param stage       the stage
+     * @param currentUser the current user
+     */
     public void initialize(Main mainApp, Stage stage, Employee currentUser){
         this.mainApp = mainApp;
         this.stage = stage;

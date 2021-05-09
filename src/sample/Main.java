@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -15,25 +16,54 @@ import sample.utils.RestApiRequests;
 
 import java.io.IOException;
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
+    /**
+     * The Requests.
+     */
     RestApiRequests requests = new RestApiRequests();
     private Stage primaryStage;
+    /**
+     * The Current user.
+     */
     public Employee currentUser;
     private BorderPane rootLayout;
     private ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 
+    /**
+     * Gets current user.
+     *
+     * @return the current user
+     */
     public Employee getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Sets current user.
+     *
+     * @param currentUser the current user
+     */
     public void setCurrentUser(Employee currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Gets primary stage.
+     *
+     * @return the primary stage
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Sets employee data.
+     *
+     * @param employeeData the employee data
+     */
     public void setEmployeeData(ObservableList<Employee> employeeData) {
         this.employeeData = employeeData;
     }
@@ -41,6 +71,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try{
+            primaryStage.setTitle("Car rental management system");
+            primaryStage.getIcons().add(
+                    new Image(
+                            Main.class.getResourceAsStream( "icon.png" )));
             employeeData = requests.getEmployees();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/login.fxml"));
@@ -56,6 +90,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show main app.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showMainApp(Stage primaryStage){
         try{
             employeeData = requests.getEmployees();
@@ -74,6 +113,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show profile page.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showProfilePage(Stage primaryStage){
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -89,6 +133,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show employees db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showEmployeesDB(Stage primaryStage){
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -104,13 +153,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show employees edit page employee.
+     *
+     * @param primaryStage    the primary stage
+     * @param clickedEmployee the clicked employee
+     * @return the employee
+     * @throws IOException the io exception
+     */
     public Employee showEmployeesEditPage(Stage primaryStage, Employee clickedEmployee) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/employeeEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit employee");
+        dialogueStage.getIcons().add(new Image(
+                        Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -126,6 +185,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show offices db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showOfficesDB(Stage primaryStage){
         try{
             ObservableList<Office> officeData = requests.getOffices();
@@ -142,13 +206,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show office edit page office.
+     *
+     * @param primaryStage  the primary stage
+     * @param clickedOffice the clicked office
+     * @return the office
+     * @throws IOException the io exception
+     */
     public Office showOfficeEditPage(Stage primaryStage, Office clickedOffice) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/officeEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit office");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -164,6 +238,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show jobs db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showJobsDB(Stage primaryStage){
         try{
             ObservableList<Job> jobData = requests.getJobs();
@@ -180,13 +259,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show job edit page job.
+     *
+     * @param primaryStage the primary stage
+     * @param clickedJob   the clicked job
+     * @return the job
+     * @throws IOException the io exception
+     */
     public Job showJobEditPage(Stage primaryStage, Job clickedJob) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/jobEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit job");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -203,6 +292,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Show rates db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showRatesDB(Stage primaryStage){
         try{
             ObservableList<Rate> rateData = requests.getRates();
@@ -219,13 +313,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show rate edit page rate.
+     *
+     * @param primaryStage the primary stage
+     * @param clickedRate  the clicked rate
+     * @return the rate
+     * @throws IOException the io exception
+     */
     public Rate showRateEditPage(Stage primaryStage, Rate clickedRate) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/rateEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit rate");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -241,6 +345,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show cars db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showCarsDB(Stage primaryStage){
         try{
             ObservableList<Car> carData = requests.getCars();
@@ -257,6 +366,12 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show cars db.
+     *
+     * @param primaryStage the primary stage
+     * @param newCarData   the new car data
+     */
     public void showCarsDB(Stage primaryStage, ObservableList<Car> newCarData){
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -272,13 +387,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show car edit page car.
+     *
+     * @param primaryStage the primary stage
+     * @param clickedCar   the clicked car
+     * @return the car
+     * @throws IOException the io exception
+     */
     public Car showCarEditPage(Stage primaryStage, Car clickedCar) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/carEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit car");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -295,6 +420,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Show clients db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showClientsDB(Stage primaryStage){
         try{
             ObservableList<Client> clientData = requests.getClients();
@@ -311,13 +441,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show client edit page client.
+     *
+     * @param primaryStage  the primary stage
+     * @param clickedClient the clicked client
+     * @return the client
+     * @throws IOException the io exception
+     */
     public Client showClientEditPage(Stage primaryStage, Client clickedClient) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/clientEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit client");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -334,6 +474,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Show rent db.
+     *
+     * @param primaryStage the primary stage
+     */
     public void showRentDB(Stage primaryStage){
         try{
             ObservableList<Rent> rentData = requests.getRents();
@@ -350,6 +495,12 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show rent db.
+     *
+     * @param primaryStage the primary stage
+     * @param newRentData  the new rent data
+     */
     public void showRentDB(Stage primaryStage, ObservableList<Rent> newRentData){
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -365,13 +516,23 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show rents edit page rent.
+     *
+     * @param primaryStage the primary stage
+     * @param clickedRent  the clicked rent
+     * @return the rent
+     * @throws IOException the io exception
+     */
     public Rent showRentsEditPage(Stage primaryStage, Rent clickedRent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/rentEdit.fxml"));
         AnchorPane editPage = (AnchorPane) loader.load();
 
         Stage dialogueStage = new Stage();
-        dialogueStage.setTitle("EDIT");
+        dialogueStage.setTitle("Edit rent");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "icon.png" )));
         dialogueStage.initOwner(primaryStage);
         dialogueStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(editPage);
@@ -387,6 +548,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Show about.
+     *
+     * @throws IOException the io exception
+     */
     public void showAbout() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/about.fxml"));
@@ -395,9 +561,38 @@ public class Main extends Application {
         rootLayout.setCenter(aboutPage);
     }
 
+    /**
+     * Show stats.
+     *
+     * @param primaryStage the primary stage
+     * @param clickedCar   the clicked car
+     * @throws IOException the io exception
+     */
+    public void showStats(Stage primaryStage, Car clickedCar) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/statistics.fxml"));
+        AnchorPane editPage = (AnchorPane) loader.load();
+
+        Stage dialogueStage = new Stage();
+        dialogueStage.setTitle("Car statistics");
+        dialogueStage.getIcons().add(new Image(
+                Main.class.getResourceAsStream( "chart_icon.png" )));
+        dialogueStage.initOwner(primaryStage);
+        dialogueStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(editPage);
+        dialogueStage.setScene(scene);
+
+        StatisticsController controller = loader.getController();
+        controller.initialize(this, dialogueStage, clickedCar);
+        dialogueStage.showAndWait();
+    }
 
 
-
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
